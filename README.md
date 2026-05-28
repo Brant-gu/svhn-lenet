@@ -2,6 +2,10 @@
 
 PyTorch implementation of LeNet for street view house numbers (SVHN) digit classification.
 
+## 项目简介
+
+基于 PyTorch 实现的 LeNet 卷积神经网络，用于 SVHN（街景门牌号码）数字分类。模型参数量约 14 万，支持多种数据增强策略，测试集准确率 88.64%。
+
 ## Model Architecture
 
 | Layer | Type | Input → Output | Kernel | Activation |
