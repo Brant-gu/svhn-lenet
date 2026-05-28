@@ -43,7 +43,7 @@ def main(args):
         print("=> no checkpoint found at '{}'".format(args.load))
         return
 
-    print("Evaluting the model ...\n")
+    print("Evaluating the model ...\n")
     start = time.time()
     test_model(model, test_loader, epoch - 1)
     end = time.time()

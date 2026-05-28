@@ -2,14 +2,10 @@ from tqdm import tqdm
 
 import torch
 import torch.nn as nn
-import torch.optim as optim
-
-import torchvision
-import torchvision.transforms as transforms
 
 
 class LeNet(nn.Module):
-    def __init__(self, input_shape=(32, 32), num_classes=10):
+    def __init__(self, num_classes=10):
         super(LeNet, self).__init__()
         self.conv1 = nn.Conv2d(3, 6, kernel_size=5)
         self.pool = nn.MaxPool2d(kernel_size=2, stride=2)
@@ -21,26 +17,16 @@ class LeNet(nn.Module):
         self.relu = nn.ReLU()
 
     def forward(self, x):
-        shape_dict = {}
         x = self.pool(self.relu(self.conv1(x)))
-        shape_dict[1] = list(x.shape)
         x = self.pool(self.relu(self.conv2(x)))
-        shape_dict[2] = list(x.shape)
         x = torch.flatten(x, 1)
-        shape_dict[3] = list(x.shape)
         x = self.relu(self.fc1(x))
-        shape_dict[4] = list(x.shape)
         x = self.relu(self.fc2(x))
-        shape_dict[5] = list(x.shape)
-        out = self.fc3(x)
-        shape_dict[6] = list(out.shape)
-        return out, shape_dict
+        x = self.fc3(x)
+        return x
 
 
 def count_model_params():
-    """
-    return the number of trainable parameters of LeNet on SVHN.
-    """
     model = LeNet()
     total = 0
     for name, param in model.named_parameters():
@@ -61,10 +47,8 @@ def train_model(model, train_loader, optimizer, criterion, epoch):
     model.train()
     train_loss = 0.0
     for input, target in tqdm(train_loader, total=len(train_loader)):
-        # zero gradients
         optimizer.zero_grad()
-        # forward + backward + optimize
-        output, _ = model(input)
+        output = model(input)
         loss = criterion(output, target)
         loss.backward()
         optimizer.step()
@@ -83,7 +67,7 @@ def test_model(model, test_loader, epoch):
     correct = 0
     with torch.no_grad():
         for input, target in test_loader:
-            output, _ = model(input)
+            output = model(input)
             pred = output.max(1, keepdim=True)[1]
             correct += pred.eq(target.view_as(pred)).sum().item()
 

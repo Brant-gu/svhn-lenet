@@ -9,13 +9,12 @@ class SVHN(data.Dataset):
     """
     A thin wrapper around torchvision.datasets.SVHN.
 
-    The helper scripts only need train/test access, but we also accept "val"
-    and map it to the official test split so the surrounding API stays simple.
+    Accepts "train", "val", or "test" split. "val" is mapped to the official
+    test split so the same API can be used for both evaluation and validation.
     """
 
     def __init__(self, root, split="train", transform=None):
         assert split in ["train", "val", "test"]
-        self.root_folder = os.path.join(root, "SVHN")
         self.split = split
         self.transform = transform
 

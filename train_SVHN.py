@@ -18,7 +18,6 @@ SVHN_STD = [0.1980, 0.2010, 0.1970]
 def save_checkpoint(state, is_best,
                     file_folder="./outputs/",
                     filename='checkpoint.pth.tar'):
-    """save checkpoint"""
     if not os.path.exists(file_folder):
         os.makedirs(os.path.expanduser(file_folder), exist_ok=True)
     torch.save(state, os.path.join(file_folder, filename))
