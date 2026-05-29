@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+data/
+outputs/
+.DS_Store
+CLAUDE.md
+docs/superpowers/
